@@ -1,5 +1,9 @@
 package org.lql.service;
 
+import org.lql.domain.PurchaseRecordPo;
+
+import java.util.List;
+
 /**
  * Title: ProductService <br>
  * ProjectName: spring-boot-panic-buying <br>
@@ -12,4 +16,8 @@ package org.lql.service;
 public interface PurchaseService {
 
     public boolean purchase(Long userId, Long productId, Integer quantity);
+
+    boolean purchaseRedis(Long userId, Long productId, Integer quantity);
+
+    boolean dealRedisPurchase(List<PurchaseRecordPo> purchaseRecordPos);
 }

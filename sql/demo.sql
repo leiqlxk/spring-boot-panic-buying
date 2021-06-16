@@ -17,3 +17,7 @@ create table t_purchase_record(
       purchase_date timestamp not null default now() comment '购买日期',
       note varchar(256) null comment '备注'
 );
+
+
+
+hmset product_1 id 1 stock 30000 price 5.00

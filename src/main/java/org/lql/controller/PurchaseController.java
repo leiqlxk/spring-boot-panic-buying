@@ -1,8 +1,10 @@
 package org.lql.controller;
 
+import org.lql.domain.Result;
 import org.lql.service.PurchaseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
@@ -27,5 +29,13 @@ public class PurchaseController {
         return new ModelAndView("test");
     }
 
-    public
+    @PostMapping("/purchase")
+    public Result purchase(Long userId, Long productId, Integer quantity) {
+//        boolean success = purchaseService.purchase(userId, productId, quantity);
+        boolean success = purchaseService.purchaseRedis(userId, productId, quantity);
+
+        String message = success ? "抢购成功" : "抢购失败";
+
+        return new Result(success, message);
+    }
 }

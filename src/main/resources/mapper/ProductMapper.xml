@@ -3,13 +3,27 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.lql.mapper.ProductMapper">
+    <!--  sql语句加入for update使用悲观锁  -->
+    <!--<select id="getProduct" parameterType="long" resultType="product">
+        select id, product_name as productName, stock, price, version, note
+        from t_product
+        where id = #{id} for update
+    </select>-->
+
     <select id="getProduct" parameterType="long" resultType="product">
         select id, product_name as productName, stock, price, version, note
         from t_product
-        where id = #{id}
+        where id = #{id} for update
     </select>
-    
+
+    <!--  使用乐观锁，其会产生ABA问题，则增加版本号，当共享数据的版本号不一致时取消操作  -->
     <update id="decreaseProduct">
+        update t_product set stock = stock - #{quantity}, version = version + 1
+        where id = #{id} and version = #{version}
+    </update>
+
+     <!--  使用redis  -->
+    <update id="decreaseProductRedis">
         update t_product set stock = stock - #{quantity}
         where id = #{id}
     </update>
